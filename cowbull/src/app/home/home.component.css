@@ -1,0 +1,33 @@
+.body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading-section{
+
+}
+
+.heading{
+  font-size: 150px;
+}
+
+.button-section{
+}
+
+.join-btn-section{
+  margin-bottom: 20px;
+}
+
+.join-btn{
+  padding: 10px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.create-btn{
+  padding: 10px;
+  width: 200px;
+  cursor: pointer;
+}

@@ -1,0 +1,13 @@
+@if (!game.isVisible) {
+
+  <h1>Room Code: {{ roomId }}</h1>
+
+  <h2>Players:</h2>
+
+  <h3>Player 1</h3>
+  <h3>Player 2</h3>
+
+  <app-enternum></app-enternum>
+  <button (click)="game.onVisible()">Start</button>
+}
+<app-game #game></app-game>

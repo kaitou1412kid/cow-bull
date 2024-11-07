@@ -1,0 +1,9 @@
+@if (isVisible) {
+
+  <h1>Your Guesses:</h1>
+  <section *ngFor="let guess of guesses; let i = index">
+
+    <input type="number" #guessInput [disabled]="guess.disabled">
+    <button (click)="onGuess(i, guessInput.value)" [disabled]="guess.disabled">Submit</button>
+  </section>
+}
