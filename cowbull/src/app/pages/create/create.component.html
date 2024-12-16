@@ -4,8 +4,9 @@
 
   <h2>Players:</h2>
 
-  <h3>Player 1</h3>
-  <h3>Player 2</h3>
+  <div *ngFor="let item of players">
+    <h3>{{ item }}</h3>
+  </div>
 
   <app-enternum></app-enternum>
   <button (click)="game.onVisible()">Start</button>

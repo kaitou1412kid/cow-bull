@@ -1,0 +1,42 @@
+# Node modules
+node_modules/
+
+# Dependency directories
+jspm_packages/
+
+# Build output
+/dist/
+/out-tsc/
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+
+# IDE and editor folders
+.vscode/
+/.idea/
+/*.sublime-workspace
+/.project
+/.settings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*.local
+
+# Angular CLI's cache
+.angular/
+
+# Package distribution
+*.tgz
+
+# Local configuration files
+.angular.json
+tsconfig.json
+tsconfig.app.json
+tsconfig.spec.json
+karma.conf.js

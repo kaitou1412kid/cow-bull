@@ -7,10 +7,10 @@
         <h1>Enter Code</h1>
         <section>
 
-          <input type="text" placeholder="Enter Code" class="code-input">
+          <input type="text" placeholder="Enter Code" class="code-input" [formControl] = "roomCode">
         </section>
         <section class="join-btn-section">
-          <button class="join-btn">Join</button>
+          <button class="join-btn" (click)="joinRoom()">Join</button>
         </section>
       </section>
     </div>
