@@ -20,17 +20,17 @@ public class GameController {
     @Autowired
     private RoomService roomService;
 
-    @PostMapping("/room/create")
+    @GetMapping("/room/create")
     public Room createRoom(@RequestParam String ownerId) {
         return roomService.createRoom(ownerId);
     }
 
-    @PostMapping("/room/join")
+    @GetMapping("/room/join")
     public Room joinRoom(@RequestParam String playerId, @RequestParam String roomId) throws Exception {
         return roomService.joinRoom(roomId, playerId);
     }
 
-    @PostMapping("/room/start")
+    @GetMapping("/room/start")
     public String startGame(@RequestParam String ownerId, @RequestParam String roomId) throws Exception {
         roomService.startGame(roomId, ownerId);
         return "Game Started";
