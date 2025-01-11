@@ -1,9 +1,62 @@
-@if (isVisible) {
+<div class="container">
+    <div class="game-content">
+        <h1>Guess the Number</h1>
 
-  <h1>Your Guesses:</h1>
-  <section *ngFor="let guess of guesses; let i = index">
+        <!-- Guesses Display -->
+        <div class="guesses-container">
+            @for (guess of guesses; track guess.number) {
+            <div class="guess-row">
+                <span class="guessed-number">{{ guess.number }}</span>
+                <div class="result">
+                    @if (guess.bulls > 0) {
+                    <span class="bulls">{{ guess.bulls }}C</span>
+                    }
+                    @if (guess.cows > 0) {
+                    <span class="cows">{{ guess.cows }}B</span>
+                    }
+                    @if (guess.bulls === 0 && guess.cows === 0) {
+                    <span class="no-match">No Match</span>
+                    }
+                </div>
+            </div>
+            }
+        </div>
 
-    <input type="number" #guessInput [disabled]="guess.disabled">
-    <button (click)="onGuess(i, guessInput.value)" [disabled]="guess.disabled">Submit</button>
-  </section>
-}
+        <!-- Input Form -->
+        <form [formGroup]="guessForm" (ngSubmit)="onSubmitGuess()" class="guess-form">
+            <div class="input-group">
+                <input type="text" formControlName="number" placeholder="Enter 4-digit number" maxlength="4"
+                    autocomplete="off">
+                @if (numberInvalid) {
+                <div class="error-message">
+                    {{ numberErrorMessage }}
+                </div>
+                }
+            </div>
+
+            <button type="submit" [disabled]="!guessForm.valid" class="submit-btn">
+                Submit
+            </button>
+        </form>
+    </div>
+
+    <!-- Win Dialog -->
+    @if (showWinDialog) {
+    <div class="dialog-overlay">
+        <div class="win-dialog">
+            <div class="win-content">
+                <h2>🎉 Congratulations! 🎉</h2>
+                <p>You've won in {{ numberOfMoves }} moves!</p>
+                <div class="button-group">
+                    <button class="play-again-btn" (click)="onPlayAgain()">
+                        Play Again
+                    </button>
+                    <button class="exit-btn" (click)="onExit()">
+                        Exit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
