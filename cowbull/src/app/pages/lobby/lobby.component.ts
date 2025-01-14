@@ -34,11 +34,24 @@ export class LobbyComponent implements OnInit, OnDestroy {
   ];
   isDialogOpen = false;
 
-  constructor(private route: ActivatedRoute, private wsService: WebsocketService) { }
+  constructor(private route: ActivatedRoute, private wsService: WebsocketService) {
+   }
 
   ngOnInit(): void {
     this.roomCode = this.route.snapshot.paramMap.get('id') || "";
-    this.wsService.connect(this.roomCode);
+    // this.wsService.connect();
+    if(this.wsService.isConnected){
+      this.wsService.sendRoomCode(this.roomCode);
+      this.wsService.connectToLobby(this.roomCode);
+    }else{
+      console.log("not connected");
+    }
+
+    // setTimeout(() => {
+    //   if(this.wsService.isConnected){
+    //     this.wsService.connectToLobby(this.roomCode);
+    //   }
+    // },5000);
 
     // Subscribe to messages
     this.stateSubscription = this.wsService.lobbyState$.subscribe(

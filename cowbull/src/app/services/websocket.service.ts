@@ -1,6 +1,6 @@
 // services/websocket.service.ts
 import { Injectable } from '@angular/core';
-import { Client } from '@stomp/stompjs';
+import { Client, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { BehaviorSubject } from 'rxjs';
 import { LobbyState } from '../pages/lobby/lobby.component';
@@ -10,6 +10,7 @@ import { LobbyState } from '../pages/lobby/lobby.component';
 })
 export class WebsocketService {
   private stompClient: Client;
+  isConnected: boolean = false;
   private messageSubject = new BehaviorSubject<any>(null);
   public messageObservable = this.messageSubject.asObservable();
   private lobbyStateSubject = new BehaviorSubject<LobbyState | null>(null);
@@ -18,34 +19,48 @@ export class WebsocketService {
   constructor() {
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
-      onConnect: () => {
-        console.log('Connected to WebSocket');
-      },
-      onDisconnect: () => {
-        console.log('Disconnected from WebSocket');
-      }
     });
   }
 
-  connect(lobbyId: string): void {
+  connect(): void {
     this.stompClient.activate();
-    
+
+
+    this.stompClient.onConnect = () => {
+      console.log("Connected to websocket");
+      this.isConnected = true;
+    }
     // Subscribe to lobby-specific messages
     // this.stompClient.onConnect = () => {
-    //   this.stompClient.subscribe(`/topic/lobby/${lobbyId}/state`, (message) => {
+    //   this.stompClient.subscribe(`/topic/lobby/${lobbyId}`, (message) => {
     //     const lobbyState = JSON.parse(message.body);
     //     this.lobbyStateSubject.next(lobbyState);
     //     console.log(message.body);
     //   });
     //   this.joinLobby(lobbyId);
     // };
-    this.stompClient.onConnect = () => {
-        this.stompClient.subscribe(`/topic/lobby/${lobbyId}`, (message) => {
-          const lobbyState = JSON.parse(message.body);
-          this.lobbyStateSubject.next(lobbyState);
-          console.log(message.body);
-        });
-      };
+    // this.stompClient.onConnect = () => {
+    //     this.stompClient.subscribe(`/topic/lobby/${lobbyId}`, (message) => {
+    //       const lobbyState = JSON.parse(message.body);
+    //       this.lobbyStateSubject.next(lobbyState);
+    //       console.log(message.body);
+    //     });
+    //     this.joinLobby(lobbyId);
+    //   };
+  }
+
+  connectToLobby(lobbyId : string){
+    this.stompClient?.subscribe(`/topic/lobby/${lobbyId}`,(message)=>{
+      console.log(message.body);
+      const lobbyState = JSON.parse(message.body);
+      this.lobbyStateSubject.next(lobbyState);
+    })
+  }
+
+  sendRoomCode(lobbyId: string){
+    this.stompClient.publish({
+      destination: `/app/lobby/${lobbyId}`,
+    });
   }
 
   disconnect(lobbyId: string): void {
@@ -55,15 +70,16 @@ export class WebsocketService {
     }
   }
 
-  joinLobby(lobbyId: string): void {
+  joinLobby(lobbyId: string, playerId: string): void {
+    debugger
     this.stompClient.publish({
       destination: `/app/lobby/${lobbyId}/join`,
       body: JSON.stringify({
         // Include player info from your auth service
-        playerId: 'current-player-id',
-        username: 'current-username'
+        playerId: playerId,
       })
     });
+    console.log("hereee")
   }
 
   leaveLobby(lobbyId: string): void {

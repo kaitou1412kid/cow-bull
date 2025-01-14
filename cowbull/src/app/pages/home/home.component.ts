@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    
+    // this.wsService.connect();
   }
 
   onCreateRoom() {
@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit{
     const id = this.generateId(5);
     this.roomService.createRoom(id).subscribe((response) => {
       let roomId = response.id;
+      // this.wsService.sendRoomCode(roomId);
       this.router.navigate([`/lobby/${roomId}`],{state: {roomData: response}});
     })
   }
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit{
       this.roomService.joinRoom(id, this.joinRoomForm.value.roomCode!).subscribe((response) => {
         let roomId = response.id;
         this.router.navigate([`/lobby/${roomId}`], {state: {roomData : response}});
+        this.wsService.connectToLobby(roomId);
       })
       this.closeDialog();
       this.joinRoomForm.reset();

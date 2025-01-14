@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { WebsocketService } from './services/websocket.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,10 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'cowbull';
+
+  constructor(private wsService: WebsocketService){}
+
+  ngOnInit() {
+    this.wsService.connect(); // Establish connection when the app initializes
+  }
 }
