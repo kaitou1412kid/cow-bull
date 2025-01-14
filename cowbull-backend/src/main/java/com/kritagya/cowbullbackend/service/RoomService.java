@@ -45,4 +45,8 @@ public class RoomService {
         return players.get(playerId);
     }
 
+    public Room getRoom(String roomId){
+        return rooms.get(roomId);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.kritagya.cowbullbackend.model.Player;
 import com.kritagya.cowbullbackend.model.Room;
 import com.kritagya.cowbullbackend.service.GameService;
 import com.kritagya.cowbullbackend.service.RoomService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class GameController {
 
     @Autowired
@@ -22,7 +24,9 @@ public class GameController {
 
     @GetMapping("/room/create")
     public Room createRoom(@RequestParam String ownerId) {
-        return roomService.createRoom(ownerId);
+        Room room = roomService.createRoom(ownerId);
+        log.info("Room created: {}", room);
+        return room;
     }
 
     @GetMapping("/room/join")

@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="content">
+      <!-- Room Code Section -->
+      <div class="room-code">
+        <h2>Room Code</h2>
+        <div class="code-display">{{ lobbyState?.id }}</div>
+      </div>
+  
+      <!-- Players List -->
+      <div class="players-section">
+        <h3>Players</h3>
+        <div class="players-list">
+          @for (player of lobbyState?.players; track player) {
+            <div class="player-card">
+              <span>{{ player }}</span>
+              <span class="status" [class.ready]="player.isReady">
+                {{ player.isReady ? 'Ready' : 'Not Ready' }}
+              </span>
+            </div>
+          }
+        </div>
+      </div>
+  
+      <!-- Start Button -->
+      <button class="start-btn" (click)="onStartGame()">
+        Start Game
+      </button>
+    </div>
+  
+    <!-- Number Input Dialog -->
+    @if (isDialogOpen) {
+      <div class="dialog-overlay" (click)="closeDialog()">
+        <div class="dialog">
+          <div class="dialog-content" (click)="$event.stopPropagation()">
+            <h2>Enter Your Number</h2>
+            
+            <form [formGroup]="numberForm" (ngSubmit)="onSubmitNumber()">
+              <div class="form-group">
+                <input 
+                  type="text" 
+                  formControlName="number"
+                  placeholder="Enter 4-digit number"
+                  maxlength="4"
+                >
+                @if (numberInvalid) {
+                  <div class="error-message">
+                    {{ numberErrorMessage }}
+                  </div>
+                }
+              </div>
+              
+              <button 
+                type="submit" 
+                [disabled]="!numberForm.valid"
+                class="submit-btn"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+  </div>

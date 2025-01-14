@@ -1,4 +1,4 @@
-<div class="body">
+<!-- <div class="body">
   <section class="heading-section">
     <h1 class="heading">Cow Bull</h1>
 </section>
@@ -11,4 +11,48 @@
   </section>
 </section>
 </div>
-<app-join #join></app-join>
+<app-join #join></app-join> -->
+
+<div class="container">
+  <div class="content">
+    <h1>Cow Bull</h1>
+    
+    <div class="buttons">
+      <button class="create-btn" (click)="onCreateRoom()">
+        Create Room
+      </button>
+      
+      <button class="join-btn" (click)="openDialog()">
+        Join Room
+      </button>
+    </div>
+  </div>
+
+  @if (isDialogOpen) {
+    <!-- Dialog Overlay -->
+    <div class="dialog-overlay" (click)="closeDialog()">
+      <!-- Dialog -->
+      <div class="dialog">
+        <div class="dialog-content" (click)="$event.stopPropagation()">
+          <h2>Enter Room Code</h2>
+          
+          <form [formGroup]="joinRoomForm" (ngSubmit)="onJoinRoom()">
+            <input 
+              type="text" 
+              formControlName="roomCode"
+              placeholder="Enter room code..."
+            >
+            
+            <button 
+              type="submit" 
+              [disabled]="!joinRoomForm.valid"
+              class="submit-btn"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</div>
